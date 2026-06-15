@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freccette — Strike Castelvetro</title>
+  
+  <style>
+    .page-hero {
+      background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(0, 180, 255, 0.08) 0%, transparent 70%);
+    }
+    .page-hero-title { color: #00CFFF; }
+
+    /* Animated bullseye rings */
+    .bullseye-anim {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .bullseye-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0,207,255,0.08);
+      transform: translate(-50%, -50%);
+      animation: ringPulse 3s ease-out infinite;
+    }
+    @keyframes ringPulse {
+      0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.5); }
+      50%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%,-50%) scale(2); }
+    }
+
+    .game-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.25rem;
+    }
+    .game-mode-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(0,207,255,0.12);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: all 0.3s;
+    }
+    .game-mode-card:hover {
+      border-color: rgba(0,207,255,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0,207,255,0.08);
+    }
+    .game-mode-icon { font-size: 2rem; margin-bottom: 0.9rem; display: block; }
+    .game-mode-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: #00CFFF;
+      margin-bottom: 0.4rem;
+    }
+    .game-mode-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    @media (max-width:700px) {
+      .two-col-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+<style>
+/* =============================================
+   BOWLING CASTELVETRO — Main Stylesheet
+   Palette:
+   - #0A0A0F  near-black bg
+   - #1A1A2E  section bg
+   - #E8FF00  neon yellow (signature accent)
+   - #FF3D6B  hot pink (secondary accent)
+   - #FFFFFF  white text
+   - #9E9EC0  muted text
+   Font: Bebas Neue (display) + Inter (body)
+============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&family=Black+Han+Sans&display=swap');
+
+:root {
+  --bg: #0A0A0F;
+  --bg-card: #13131F;
+  --bg-section: #1A1A2E;
+  --accent: #E8FF00;
+  --pink: #FF3D6B;
+  --white: #FFFFFF;
+  --muted: #9E9EC0;
+  --border: rgba(232, 255, 0, 0.15);
+  --radius: 12px;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ─────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ── TYPOGRAPHY ─────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover { color: var(--white); }
+
+/* ── NAVBAR ─────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 70px;
+  background: rgba(10, 10, 15, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--white);
+  letter-spacing: 0.08em;
+}
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 0.25rem;
+}
+
+.nav-links a {
+  display: block;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--accent);
+  background: rgba(232, 255, 0, 0.08);
+}
+
+.nav-cta {
+  background: var(--accent) !important;
+  color: var(--bg) !important;
+  font-weight: 700 !important;
+  border-radius: 6px;
+}
+.nav-cta:hover {
+  background: var(--white) !important;
+  color: var(--bg) !important;
+}
+
+/* Hamburger */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-burger span {
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* ── HERO ────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 100px 2rem 4rem;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, #1a1a3e 0%, var(--bg) 70%);
+}
+
+.hero-lane {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Animated lane lines */
+.hero-lane::before {
+  content: '';
+  position: absolute;
+  bottom: -60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 200%;
+  background: repeating-linear-gradient(
+    to top,
+    transparent 0px,
+    transparent 40px,
+    rgba(232, 255, 0, 0.03) 40px,
+    rgba(232, 255, 0, 0.03) 42px
+  );
+  animation: laneScroll 8s linear infinite;
+}
+
+@keyframes laneScroll {
+  from { transform: translateX(-50%) translateY(0); }
+  to   { transform: translateX(-50%) translateY(80px); }
+}
+
+/* Perspective lane streaks */
+.hero-lane::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(232,255,0,0.5));
+  box-shadow:
+    -120px 0 0 rgba(232,255,0,0.1),
+    120px 0 0 rgba(232,255,0,0.1),
+    -240px 0 0 rgba(232,255,0,0.05),
+    240px 0 0 rgba(232,255,0,0.05);
+}
+
+.hero-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.6s 0.2s forwards;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 14vw, 11rem);
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.4s forwards;
+}
+.hero-title .accent { color: var(--accent); }
+.hero-title .pink { color: var(--pink); }
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.6s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.8s forwards;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0;
+  animation: fadeIn 1s 1.2s forwards;
+}
+.hero-scroll span {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.7); opacity: 0.5; }
+}
+
+/* ── BUTTONS ─────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: var(--white);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232,255,0,0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ── SECTION STRUCTURE ────────────────────── */
+.section {
+  padding: 6rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-full {
+  padding: 6rem 2rem;
+  background: var(--bg-section);
+}
+.section-full .section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 560px;
+  margin-bottom: 3rem;
+  line-height: 1.7;
+}
+
+/* ── ORARI BANNER ────────────────────────── */
+.orari-band {
+  background: var(--accent);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.orari-band-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bg);
+}
+.orari-band-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bg);
+  opacity: 0.4;
+}
+
+/* ── ATTIVITÀ GRID ─────────────────────── */
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.activity-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: block;
+  color: var(--white);
+}
+.activity-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+.activity-card:hover {
+  border-color: rgba(232,255,0,0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.activity-card:hover::before {
+  transform: scaleX(1);
+}
+
+.activity-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+.activity-name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.activity-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.activity-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ── IMAGE PLACEHOLDER ────────────────────── */
+.img-placeholder {
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  aspect-ratio: 16 / 9;
+  border: 1px dashed rgba(232,255,0,0.25);
+}
+.img-placeholder-sm { aspect-ratio: 4 / 3; }
+.img-placeholder-sq { aspect-ratio: 1 / 1; }
+
+.img-placeholder-bowling   { background: linear-gradient(135deg, #1a1a3e 0%, #0d1a0d 100%); }
+.img-placeholder-casino    { background: linear-gradient(135deg, #1a0d0d 0%, #2a0a1a 100%); }
+.img-placeholder-freccette { background: linear-gradient(135deg, #0a1a1a 0%, #0d0d2a 100%); }
+.img-placeholder-compleanno{ background: linear-gradient(135deg, #1a150a 0%, #0d1a0d 100%); }
+.img-placeholder-carambola { background: linear-gradient(135deg, #0a1a15 0%, #1a2a0a 100%); }
+.img-placeholder-giochi    { background: linear-gradient(135deg, #1a0a1a 0%, #0a0a2a 100%); }
+.img-placeholder-generic   { background: linear-gradient(135deg, #13131f 0%, #1a1a2e 100%); }
+
+.img-placeholder-icon {
+  font-size: 2.5rem;
+  opacity: 0.5;
+}
+.img-placeholder-caption {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+/* ── ORARI TABLE ─────────────────────────── */
+.orari-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.orari-table td {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.orari-table td:first-child {
+  color: var(--muted);
+  width: 55%;
+}
+.orari-table td:last-child {
+  font-weight: 700;
+  color: var(--accent);
+  text-align: right;
+}
+.orari-table tr:last-child td { border-bottom: none; }
+
+/* ── PREZZI TABLE ─────────────────────────── */
+.prezzi-grid {
+  display: grid;
+  gap: 1rem;
+}
+.prezzo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.prezzo-card-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.prezzo-card-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+}
+.prezzo-card-value {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.prezzo-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 61, 107, 0.15);
+  border: 1px solid rgba(255,61,107,0.3);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--pink);
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+/* ── HERO STAT BAR ──────────────────────── */
+.stat-bar {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-top: 3.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid var(--border);
+  justify-content: center;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+/* ── CONTACT SECTION ────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.contact-info-icon {
+  font-size: 1.4rem;
+  margin-top: 0.1rem;
+}
+.contact-info-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+.contact-info-val {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.contact-map-placeholder {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+/* ── PAGE HERO (inner pages) ────────────── */
+.page-hero {
+  padding: 140px 2rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(232,255,0,0.06) 0%, transparent 70%);
+}
+.page-hero-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+.page-hero-title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  margin-bottom: 1rem;
+}
+.page-hero-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── BREADCRUMB ─────────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 0;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb-sep { opacity: 0.4; }
+
+/* ── FOOTER ──────────────────────────────── */
+.footer {
+  background: #060609;
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8rem;
+}
+.footer-brand span { color: var(--accent); }
+.footer-tagline { font-size: 0.85rem; color: var(--muted); }
+
+.footer-col-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.footer-links a {
+  font-size: 0.88rem;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 2rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── SCROLL REVEAL ──────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── ANIMATIONS ─────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── GALLERY GRID ─────────────────────────── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.gallery-item {
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+.gallery-item:nth-child(4n) {
+  grid-column: span 2;
+}
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item:nth-child(4n) { grid-column: span 1; }
+}
+
+@media (max-width: 700px) {
+  .nav-links { display: none; }
+  .nav-burger { display: flex; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 70px 0 0 0;
+    background: var(--bg);
+    padding: 2rem;
+    gap: 0.5rem;
+  }
+  .nav-links.open a { font-size: 1.1rem; padding: 0.75rem 1rem; }
+  .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .stat-bar { gap: 1.5rem; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .orari-band { gap: 1rem; }
+}
+
+/* ── COMPLEANNO PAGE ─────────────────────── */
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.package-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.package-card.featured {
+  border-color: var(--pink);
+  background: linear-gradient(135deg, #1a0d18 0%, var(--bg-card) 100%);
+}
+.package-card.featured::before {
+  content: '⭐ CONSIGLIATO';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--pink);
+  background: rgba(255,61,107,0.15);
+  border: 1px solid rgba(255,61,107,0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+.package-icon { font-size: 2rem; margin-bottom: 1rem; }
+.package-name {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+.package-desc {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.package-includes {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.package-includes li {
+  list-style: none;
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: flex;
+  gap: 0.5rem;
+}
+.package-includes li::before {
+  content: '✓';
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── CASINO PAGE ───────────────────────── */
+.warning-band {
+  background: rgba(255,61,107,0.1);
+  border: 1px solid rgba(255,61,107,0.25);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+.warning-band strong { color: var(--pink); }
+
+</style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar"></nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Freccette</span>
+  </div>
+
+  <section class="page-hero" style="position:relative;overflow:hidden;">
+    <div class="page-hero-label">Mira, lancia, vinci</div>
+    <h1 class="page-hero-title">🎯 FRECCETTE</h1>
+    <p class="page-hero-sub">Macchine elettroniche di ultima generazione, decine di modalità di gioco, classifiche in tempo reale. Il duello è servito.</p>
+  </section>
+
+  <div class="section">
+
+    <!-- MAIN IMAGE -->
+    <div class="img-placeholder img-placeholder-freccette reveal" style="margin-bottom:3rem;">
+      <div class="img-placeholder-icon">🎯</div>
+      <div class="img-placeholder-caption">La sala freccette — macchine cyberdine con schermo touch</div>
+    </div>
+
+    <!-- INTRO + PREZZI -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;" class="two-col-grid">
+
+      <div class="reveal">
+        <div class="section-label">La sala</div>
+        <h2 class="section-title">Freccette elettroniche</h2>
+        <p style="color:var(--muted);line-height:1.7;margin-bottom:1.2rem;">
+          La nostra sala freccette è dotata di macchine "cyberdine" elettroniche di ultima generazione — il punteggio viene calcolato automaticamente, con suoni, animazioni e classifiche che rendono ogni partita un evento.
+        </p>
+        <p style="color:var(--muted);line-height:1.7;margin-bottom:1.2rem;">
+          Grazie alle macchine elettroniche, anche i principianti possono cominciare subito a divertirsi senza bisogno di conoscere le regole a memoria: ci pensa lo schermo a guidarti.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;">
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;">
+            <span style="color:#00CFFF;font-size:1.1rem;">✓</span>
+            <span>Macchine elettroniche touch screen</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;">
+            <span style="color:#00CFFF;font-size:1.1rem;">✓</span>
+            <span>Freccette morbide in dotazione</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;">
+            <span style="color:#00CFFF;font-size:1.1rem;">✓</span>
+            <span>Decine di modalità di gioco</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;">
+            <span style="color:#00CFFF;font-size:1.1rem;">✓</span>
+            <span>Fino a 8 giocatori per macchina</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.9rem;">
+            <span style="color:#00CFFF;font-size:1.1rem;">✓</span>
+            <span>Classifica e statistiche in tempo reale</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="section-label">Tariffe &amp; Orari</div>
+        <h2 class="section-title">Gioca ora</h2>
+        <div class="prezzi-grid" style="margin-top:1.5rem;">
+          <div class="prezzo-card" style="background:linear-gradient(135deg,#0a1a1a,var(--bg-card));border-color:rgba(0,207,255,0.2);">
+            <div>
+              <div class="prezzo-card-name">A gettone</div>
+              <div class="prezzo-card-label">Tariffa standard — 1 partita</div>
+            </div>
+            <div class="prezzo-card-value" style="color:#00CFFF;">€2</div>
+          </div>
+          <div class="prezzo-card" style="background:linear-gradient(135deg,#0a1a1a,var(--bg-card));border-color:rgba(0,207,255,0.2);">
+            <div>
+              <div class="prezzo-card-name">Pacchetto 5 gettoni</div>
+              <div class="prezzo-card-label">Per serate lunghe</div>
+              <div class="prezzo-badge" style="background:rgba(0,207,255,0.1);border-color:rgba(0,207,255,0.3);color:#00CFFF;">Risparmio</div>
+            </div>
+            <div class="prezzo-card-value" style="color:#00CFFF;">€8</div>
+          </div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:1rem;line-height:1.6;">
+          Prezzi indicativi. I gettoni possono essere acquistati direttamente alla cassa.
+        </p>
+
+        <div style="margin-top:2rem;">
+          <div class="section-label" style="margin-bottom:0.75rem;">Orari sala freccette</div>
+          <div style="background:var(--bg-card);border:1px solid rgba(0,207,255,0.15);border-radius:var(--radius);padding:1.25rem;">
+            <table class="orari-table">
+              <tr><td>Lun – Gio</td><td style="color:#00CFFF;">18:00 – 02:00</td></tr>
+              <tr><td>Ven – Sab</td><td style="color:#00CFFF;">15:00 – 03:00</td></tr>
+              <tr><td>Domenica</td><td style="color:#00CFFF;">15:00 – 02:00</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GAME MODES -->
+    <div style="margin-top:4rem;">
+      <div class="section-label reveal">Modalità di gioco</div>
+      <h2 class="section-title reveal">Scegli il tuo gioco</h2>
+      <p class="section-desc reveal">Le macchine offrono decine di modalità — dal classico 501 ai giochi a squadre, perfetti per ogni livello.</p>
+      <div class="game-mode-grid">
+        <div class="game-mode-card reveal">
+          <span class="game-mode-icon">🎯</span>
+          <div class="game-mode-name">501 / 301</div>
+          <p class="game-mode-desc">Il classico per eccellenza. Parti da 501 (o 301) punti e scendi a zero, concludendo con un doppio. Tecnica e nervi saldi.</p>
+        </div>
+        <div class="game-mode-card reveal">
+          <span class="game-mode-icon">🏹</span>
+          <div class="game-mode-name">CRICKET</div>
+          <p class="game-mode-desc">Chiudi i numeri 20-15 e il bullseye prima dell'avversario, totalizzando più punti. Il gioco di strategia per eccellenza.</p>
+        </div>
+        <div class="game-mode-card reveal">
+          <span class="game-mode-icon">💥</span>
+          <div class="game-mode-name">COUNT UP</div>
+          <p class="game-mode-desc">8 round, massimizza il punteggio. Perfetto per principianti e per allenarsi con la mira senza pressione.</p>
+        </div>
+        <div class="game-mode-card reveal">
+          <span class="game-mode-icon">🎲</span>
+          <div class="game-mode-name">RANDOM BULLSEYE</div>
+          <p class="game-mode-desc">La macchina sceglie il bersaglio a caso. Colpiscilo prima degli avversari. Adrenalina pura, reazioni fulminee.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALLERY -->
+    <div style="margin-top:4rem;">
+      <div class="section-label reveal">Galleria</div>
+      <h2 class="section-title reveal">La sala</h2>
+      <div class="gallery-grid" style="margin-top:1.5rem;">
+        <div class="gallery-item reveal">
+          <div class="img-placeholder img-placeholder-freccette img-placeholder-sm">
+            <div class="img-placeholder-icon">🎯</div>
+            <div class="img-placeholder-caption">Macchina elettronica freccette — schermo touch</div>
+          </div>
+        </div>
+        <div class="gallery-item reveal">
+          <div class="img-placeholder img-placeholder-freccette img-placeholder-sm">
+            <div class="img-placeholder-icon">🎯</div>
+            <div class="img-placeholder-caption">Partita in corso — classifica in tempo reale</div>
+          </div>
+        </div>
+        <div class="gallery-item reveal">
+          <div class="img-placeholder img-placeholder-freccette img-placeholder-sm">
+            <div class="img-placeholder-icon">🎯</div>
+            <div class="img-placeholder-caption">Vista della sala freccette completa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="margin-top:4rem;text-align:center;" class="reveal">
+      <h3 style="font-family:var(--font-display);font-size:2.5rem;margin-bottom:1rem;">Nel segno?</h3>
+      <p style="color:var(--muted);margin-bottom:2rem;">Vieni a sfidare i tuoi amici. Le macchine ti aspettano.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="contatti.html" class="btn btn-primary" style="background:#00CFFF;color:#0a1a1a;">📍 Dove Siamo</a>
+        <a href="index.html" class="btn btn-outline">← Torna alla home</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer" id="footer"></footer>
+  
+  
+<script>
+// ── SHARED NAVBAR HTML ────────────────────
+function renderNavbar() {
+  const nav = document.getElementById('navbar');
+  if (!nav) return;
+  nav.innerHTML = `
+    <a href="index.html" class="nav-logo">STRIKE<span>•</span>CASTELVETRO</a>
+    <ul class="nav-links">
+      <li><a href="bowling.html">🎳 Bowling</a></li>
+      <li><a href="carambola.html">🎱 Carambola</a></li>
+      <li><a href="casino.html">🎰 Casinò</a></li>
+      <li><a href="freccette.html">🎯 Freccette</a></li>
+      <li><a href="giochi.html">🕹️ Giochi</a></li>
+      <li><a href="compleanno.html">🎂 Compleanni</a></li>
+      <li><a href="contatti.html" class="nav-cta">Contatti</a></li>
+    </ul>
+    <div class="nav-burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  `;
+}
+
+// ── SHARED FOOTER HTML ────────────────────
+function renderFooter() {
+  const footer = document.getElementById('footer');
+  if (!footer) return;
+  footer.innerHTML = `
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">STRIKE<span>•</span></div>
+        <div class="footer-tagline">Il tuo posto per divertirsi a Castelvetro Piacentino.<br>Bowling, carambola, freccette, casinò e molto altro.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Attività</div>
+        <ul class="footer-links">
+          <li><a href="bowling.html">Bowling</a></li>
+          <li><a href="carambola.html">Carambola</a></li>
+          <li><a href="casino.html">Casinò</a></li>
+          <li><a href="freccette.html">Freccette</a></li>
+          <li><a href="giochi.html">Giochi a Premi</a></li>
+          <li><a href="compleanno.html">Feste di Compleanno</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contatti</div>
+        <ul class="footer-links">
+          <li><a href="tel:+390523824556">📞 0523 824556</a></li>
+          <li><a href="mailto:luca@bowlingcastelvetro.com">✉️ Scrivici</a></li>
+          <li><a href="contatti.html">📍 Quartiere Longo, 22 — Castelvetro PC</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Toy srl · P. Iva 01982660985</span>
+      <span>Aperto tutti i giorni · Dal lun–gio 18:00 · Ven–dom 15:00</span>
+    </div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderNavbar();
+  renderFooter();
+});
+
+</script>
+<script>
+// ── NAVBAR SCROLL ────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.navbar');
+  if (nav) {
+    nav.style.background = window.scrollY > 40
+      ? 'rgba(10,10,15,0.98)'
+      : 'rgba(10,10,15,0.92)';
+  }
+});
+
+// ── ACTIVE LINK ──────────────────────────
+document.querySelectorAll('.nav-links a').forEach(link => {
+  if (link.href === window.location.href) {
+    link.classList.add('active');
+  }
+});
+
+// ── BURGER MENU ──────────────────────────
+const burger = document.querySelector('.nav-burger');
+const navLinks = document.querySelector('.nav-links');
+if (burger && navLinks) {
+  burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    burger.classList.toggle('open');
+  });
+  // Close on link click
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+}
+
+// ── SCROLL REVEAL ────────────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, entry.target.dataset.delay || 0);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  if (!el.dataset.delay) {
+    el.dataset.delay = (i % 4) * 80;
+  }
+  revealObserver.observe(el);
+});
+
+</script>
+</body>
+</html>
