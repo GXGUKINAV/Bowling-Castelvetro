@@ -5,12 +5,12 @@ function renderNavbar() {
   nav.innerHTML = `
     <a href="index.html" class="nav-logo">STRIKE<span>•</span>CASTELVETRO</a>
     <ul class="nav-links">
-      <li><a href="bowling.html">🎳 Bowling</a></li>
-      <li><a href="carambola.html">🎱 Carambola</a></li>
-      <li><a href="casino.html">🎰 Casinò</a></li>
-      <li><a href="freccette.html">🎯 Freccette</a></li>
-      <li><a href="giochi.html">🕹️ Giochi</a></li>
-      <li><a href="compleanno.html">🎂 Compleanni</a></li>
+      <li><a href="bowling.html">Bowling</a></li>
+      <li><a href="carambola.html">Carambola</a></li>
+      <li><a href="casino.html">Casinò</a></li>
+      <li><a href="freccette.html">Freccette</a></li>
+      <li><a href="giochi.html">Giochi</a></li>
+      <li><a href="compleanno.html">Compleanni</a></li>
       <li><a href="contatti.html" class="nav-cta">Contatti</a></li>
     </ul>
     <div class="nav-burger" id="burger">
