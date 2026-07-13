@@ -1,5 +1,5 @@
 /* =============================================
-   BOWLING CASTELVETRO â€” Main Stylesheet
+   BOWLING CASTELVETRO — Main Stylesheet
    Palette:
    - #0A0A0F  near-black bg
    - #1A1A2E  section bg
@@ -45,12 +45,12 @@ body {
   overflow-x: hidden;
 }
 
-/* â”€â”€ SCROLLBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── SCROLLBAR ─────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 
-/* â”€â”€ TYPOGRAPHY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── TYPOGRAPHY ─────────────────────────── */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   letter-spacing: 0.03em;
@@ -64,7 +64,7 @@ a {
 }
 a:hover { color: var(--white); }
 
-/* â”€â”€ NAVBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── NAVBAR ─────────────────────────────── */
 .navbar {
   position: fixed;
   top: 0;
@@ -140,7 +140,7 @@ a:hover { color: var(--white); }
   transition: all 0.3s;
 }
 
-/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── HERO ────────────────────────────────── */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -271,7 +271,7 @@ a:hover { color: var(--white); }
   50% { transform: scaleY(0.7); opacity: 0.5; }
 }
 
-/* â”€â”€ BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── BUTTONS ─────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -311,7 +311,7 @@ a:hover { color: var(--white); }
   transform: translateY(-2px);
 }
 
-/* â”€â”€ SECTION STRUCTURE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── SECTION STRUCTURE ────────────────────── */
 .section {
   padding: 6rem 2rem;
   max-width: 1100px;
@@ -349,7 +349,7 @@ a:hover { color: var(--white); }
   line-height: 1.7;
 }
 
-/* â”€â”€ ORARI BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── ORARI BANNER ────────────────────────── */
 .orari-band {
   background: var(--accent);
   padding: 1rem 2rem;
@@ -378,7 +378,7 @@ a:hover { color: var(--white); }
   opacity: 0.4;
 }
 
-/* â”€â”€ ATTIVITÃ€ GRID â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── ATTIVITÀ GRID ─────────────────────── */
 .activities-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -445,7 +445,7 @@ a:hover { color: var(--white); }
   color: var(--accent);
 }
 
-/* â”€â”€ IMAGE PLACEHOLDER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── IMAGE PLACEHOLDER ────────────────────── */
 .img-placeholder {
   width: 100%;
   border-radius: var(--radius);
@@ -483,7 +483,7 @@ a:hover { color: var(--white); }
   opacity: 0.7;
 }
 
-/* â”€â”€ ORARI TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── ORARI TABLE ─────────────────────────── */
 .orari-table {
   width: 100%;
   border-collapse: collapse;
@@ -504,7 +504,7 @@ a:hover { color: var(--white); }
 }
 .orari-table tr:last-child td { border-bottom: none; }
 
-/* â”€â”€ PREZZI TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── PREZZI TABLE ─────────────────────────── */
 .prezzi-grid {
   display: grid;
   gap: 1rem;
@@ -548,7 +548,7 @@ a:hover { color: var(--white); }
   margin-top: 0.3rem;
 }
 
-/* â”€â”€ HERO STAT BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── HERO STAT BAR ──────────────────────── */
 .stat-bar {
   display: flex;
   gap: 2.5rem;
@@ -575,7 +575,7 @@ a:hover { color: var(--white); }
   margin-top: 0.3rem;
 }
 
-/* â”€â”€ CONTACT SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── CONTACT SECTION ────────────────────── */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -623,7 +623,7 @@ a:hover { color: var(--white); }
   flex-direction: column;
 }
 
-/* â”€â”€ PAGE HERO (inner pages) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── PAGE HERO (inner pages) ────────────── */
 .page-hero {
   padding: 140px 2rem 5rem;
   text-align: center;
@@ -651,7 +651,7 @@ a:hover { color: var(--white); }
   line-height: 1.7;
 }
 
-/* â”€â”€ BREADCRUMB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── BREADCRUMB ─────────────────────────── */
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -666,7 +666,7 @@ a:hover { color: var(--white); }
 .breadcrumb a:hover { color: var(--accent); }
 .breadcrumb-sep { opacity: 0.4; }
 
-/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── FOOTER ──────────────────────────────── */
 .footer {
   background: #060609;
   border-top: 1px solid var(--border);
@@ -723,7 +723,7 @@ a:hover { color: var(--white); }
   flex-wrap: wrap;
 }
 
-/* â”€â”€ SCROLL REVEAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── SCROLL REVEAL ──────────────────────── */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -734,7 +734,7 @@ a:hover { color: var(--white); }
   transform: none;
 }
 
-/* â”€â”€ ANIMATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── ANIMATIONS ─────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -744,7 +744,7 @@ a:hover { color: var(--white); }
   to   { opacity: 1; }
 }
 
-/* â”€â”€ GALLERY GRID â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── GALLERY GRID ─────────────────────────── */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -759,7 +759,7 @@ a:hover { color: var(--white); }
   grid-column: span 2;
 }
 
-/* â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── RESPONSIVE ─────────────────────────── */
 @media (max-width: 900px) {
   .contact-grid { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
@@ -768,25 +768,63 @@ a:hover { color: var(--white); }
 }
 
 @media (max-width: 700px) {
-  .nav-links { display: none; }
   .nav-burger { display: flex; }
-  .nav-links.open {
+
+  /* Icona burger che si trasforma in X quando il menu è aperto */
+  .nav-burger span { transform-origin: center; }
+  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Il pannello resta sempre nel DOM: lo apriamo/chiudiamo animando
+     max-height, cosi' l'apertura e' un "caduta" morbida invece di
+     uno scatto istantaneo tra display:none e display:flex */
+  .nav-links {
     display: flex;
     flex-direction: column;
     position: fixed;
-    inset: 70px 0 0 0;
+    inset: 70px 0 auto 0;
     background: var(--bg);
-    padding: 2rem;
     gap: 0.5rem;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 2rem;
+    pointer-events: none;
+    transition: max-height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+                padding 0.4s ease;
   }
-  .nav-links.open a { font-size: 1.1rem; padding: 0.75rem 1rem; }
+  .nav-links.open {
+    max-height: 600px;
+    padding: 1.5rem 2rem 2rem;
+    pointer-events: auto;
+  }
+  .nav-links a { font-size: 1.1rem; padding: 0.75rem 1rem; }
+
+  /* Ogni voce compare con un piccolo ritardo mentre il menu cade */
+  .nav-links li {
+    opacity: 0;
+    transform: translateY(-14px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .nav-links.open li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .nav-links.open li:nth-child(1) { transition-delay: 0.08s; }
+  .nav-links.open li:nth-child(2) { transition-delay: 0.14s; }
+  .nav-links.open li:nth-child(3) { transition-delay: 0.20s; }
+  .nav-links.open li:nth-child(4) { transition-delay: 0.26s; }
+  .nav-links.open li:nth-child(5) { transition-delay: 0.32s; }
+  .nav-links.open li:nth-child(6) { transition-delay: 0.38s; }
+  .nav-links.open li:nth-child(7) { transition-delay: 0.44s; }
+
   .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
   .stat-bar { gap: 1.5rem; }
   .gallery-grid { grid-template-columns: 1fr; }
   .orari-band { gap: 1rem; }
 }
 
-/* â”€â”€ COMPLEANNO PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── COMPLEANNO PAGE ─────────────────────── */
 .package-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -805,7 +843,7 @@ a:hover { color: var(--white); }
   background: linear-gradient(135deg, #1a0d18 0%, var(--bg-card) 100%);
 }
 .package-card.featured::before {
-  content: 'â­ CONSIGLIATO';
+  content: '⭐ CONSIGLIATO';
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -843,13 +881,13 @@ a:hover { color: var(--white); }
   gap: 0.5rem;
 }
 .package-includes li::before {
-  content: 'âœ“';
+  content: '✓';
   color: var(--accent);
   font-weight: 700;
   flex-shrink: 0;
 }
 
-/* â”€â”€ CASINO PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── CASINO PAGE ───────────────────────── */
 .warning-band {
   background: rgba(255,61,107,0.1);
   border: 1px solid rgba(255,61,107,0.25);
